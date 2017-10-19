@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost/rain-security?characterEncoding=utf-8&useSSL=false
+  # Session 禁用
+  session:
+    store-type: none
+
+# 禁用 Basic 认证
+#security:
+#  basic:
+#    enabled: false
+
+
+rainbow:
+  security:
+    browser:
+      loginPage: /rain-signUp.html
+
