@@ -1,9 +1,16 @@
+# 服务器的配置
+server:
+  port: 8080
+  session:
+    timeout: 600
+# Spring DB配置
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: root
     url: jdbc:mysql://localhost/rain-security?characterEncoding=utf-8&useSSL=false
+
 # Session 禁用
   session:
     store-type: none
@@ -20,3 +27,11 @@ spring:
 #      loginPage: /rain-signUp.html
 #      loginType: REDIRECT Or JSON
 
+# 自定义登录的验证码类型
+#    code:
+#      image:
+#         length:
+#         width:
+#         url:
+#      sms:
+#

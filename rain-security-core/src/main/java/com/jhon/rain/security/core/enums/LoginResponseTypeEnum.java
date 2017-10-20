@@ -5,10 +5,10 @@ package com.jhon.rain.security.core.enums;
  *
  * @author jiangy19
  * @version v1.0
- * @FileName LoginResponseTypeEnums
+ * @FileName LoginResponseTypeEnum
  * @date 2017/10/19 14:18
  */
-public enum LoginResponseTypeEnums {
+public enum LoginResponseTypeEnum {
 
 	/**
 	 * 跳转URL

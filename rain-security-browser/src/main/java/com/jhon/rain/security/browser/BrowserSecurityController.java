@@ -1,7 +1,7 @@
 package com.jhon.rain.security.browser;
 
 import com.jhon.rain.security.browser.support.SimpleResponse;
-import com.jhon.rain.security.core.properties.SecurityConstants;
+import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -49,7 +49,7 @@ public class BrowserSecurityController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
+	@RequestMapping(RainSecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
 	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
 	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response)
 					throws IOException {

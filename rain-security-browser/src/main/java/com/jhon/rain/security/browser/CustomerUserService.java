@@ -28,9 +28,11 @@ public class CustomerUserService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		/** 根据用户名，查询用户信息 TODO DB Operation **/
-		log.info("登陆用户名{}",username);
+		log.info("登陆用户名：{}",username);
+
 		/**　判断用户是否冻结　,注意：此处可以使用自定义的User类去实现UserDetails接口，然后实现相应的四个方法的判断逻辑 **/
 		String enPassword = passwordEncoder.encode("123456");
+
 		log.info("登陆的用户密码是：{}",enPassword);
 		return new User(username,enPassword,
 						true,true,true,true,

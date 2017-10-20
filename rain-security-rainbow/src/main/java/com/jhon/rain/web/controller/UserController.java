@@ -1,8 +1,11 @@
 package com.jhon.rain.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhon.rain.dto.User;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +35,22 @@ public class UserController {
 		providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
 	}
 	*/
+
+	/**
+	 * 获取登录用户的认证信息
+	 *
+	 * @param authentication
+	 * @return
+	 */
+	@GetMapping("/me")
+	public Object getCurrentUserAuthentication(Authentication authentication) {
+		return authentication;
+	}
+
+	@GetMapping("/meDetail")
+	public Object getCurrentUserDetails(@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetails) {
+		return userDetails;
+	}
 
 	@PostMapping
 	@ApiOperation(value = "创建用户")

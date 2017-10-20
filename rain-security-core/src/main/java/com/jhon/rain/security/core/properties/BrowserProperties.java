@@ -1,6 +1,7 @@
 package com.jhon.rain.security.core.properties;
 
-import com.jhon.rain.security.core.enums.LoginResponseTypeEnums;
+import com.jhon.rain.security.core.constants.RainSecurityConstants;
+import com.jhon.rain.security.core.enums.LoginResponseTypeEnum;
 import lombok.Data;
 
 /**
@@ -18,11 +19,11 @@ public class BrowserProperties {
 	/** 注册页面 **/
 	private String signUpUrl = "/rain-signUp.html";
 
-	/** 默认为未授权的url SecurityConstants.DEFAULT_UNAUTHENTICATION_URL**/
-	private String loginPage = SecurityConstants.DEFAULT_LOGIN_PAGE_URL;
+	/** 默认为未授权的url RainSecurityConstants.DEFAULT_UNAUTHENTICATION_URL**/
+	private String loginPage = RainSecurityConstants.DEFAULT_LOGIN_PAGE_URL;
 
 	/** 返回值类型枚举 **/
-	private LoginResponseTypeEnums loginType = LoginResponseTypeEnums.JSON;
+	private LoginResponseTypeEnum loginType = LoginResponseTypeEnum.JSON;
 	/** 记住我的时间:一小时 **/
 	private int rememberMeSeconds = 3600;
 }

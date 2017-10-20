@@ -22,3 +22,4 @@
         * [Spring Security 基于Form表单提交](./rain-security-rainbow/SpringSecurity基于Form表单提交.md)
         * [Spring Security 获取用户信息](./rain-security-rainbow/SpringSecurity获取用户信息.md)
         * [Spring Security 个性化用户认证流程](./rain-security-rainbow/SpringSecurity个性化用户认证流程.md)
+        * [Spring Security 基于图片验证码的实现](./SpringSecurity基于图片验证码的实现.md)

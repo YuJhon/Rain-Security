@@ -153,7 +153,7 @@
     ```java
     package com.jhon.rain.security.core.properties;
     
-    import com.jhon.rain.security.core.enums.LoginResponseTypeEnums;
+    import com.jhon.rain.security.core.enums.LoginResponseTypeEnum;
     import lombok.Data;
     
     /**
@@ -188,7 +188,7 @@
      *
      * @author jiangy19
      * @version v1.0
-     * @FileName SecurityConstants
+     * @FileName RainSecurityConstants
      * @date 2017/10/19 13:36
      */
     public class SecurityConstants {
@@ -304,7 +304,7 @@
     ```java
     package com.jhon.rain.security.browser;
     
-    import com.jhon.rain.security.core.properties.SecurityConstants;
+    import com.jhon.rain.security.core.constants.RainSecurityConstants;
     import com.jhon.rain.security.core.properties.SecurityProperties;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.context.annotation.Bean;
@@ -416,7 +416,7 @@
     ```java
     package com.jhon.rain.security.browser;
     
-    import com.jhon.rain.security.core.properties.SecurityConstants;
+    import com.jhon.rain.security.core.constants.RainSecurityConstants;
     import com.jhon.rain.security.core.properties.SecurityProperties;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.context.annotation.Bean;
@@ -528,7 +528,7 @@
     ```java
     package com.jhon.rain.security.browser;
     
-    import com.jhon.rain.security.core.properties.SecurityConstants;
+    import com.jhon.rain.security.core.constants.RainSecurityConstants;
     import com.jhon.rain.security.core.properties.SecurityProperties;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.context.annotation.Bean;
@@ -595,7 +595,7 @@
     package com.jhon.rain.security.browser.authentication;
     
     import com.fasterxml.jackson.databind.ObjectMapper;
-    import com.jhon.rain.security.core.enums.LoginResponseTypeEnums;
+    import com.jhon.rain.security.core.enums.LoginResponseTypeEnum;
     import com.jhon.rain.security.core.properties.SecurityProperties;
     import lombok.extern.slf4j.Slf4j;
     import org.springframework.beans.factory.annotation.Autowired;
@@ -650,7 +650,7 @@
     
     import com.fasterxml.jackson.databind.ObjectMapper;
     import com.jhon.rain.security.browser.support.SimpleResponse;
-    import com.jhon.rain.security.core.enums.LoginResponseTypeEnums;
+    import com.jhon.rain.security.core.enums.LoginResponseTypeEnum;
     import com.jhon.rain.security.core.properties.SecurityProperties;
     import lombok.extern.slf4j.Slf4j;
     import org.springframework.beans.factory.annotation.Autowired;

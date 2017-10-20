@@ -1,5 +1,6 @@
 package com.jhon.rain.security.core.properties;
 
+import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import lombok.Data;
 
 /**
@@ -26,5 +27,5 @@ public class SessionProperties {
 	/**
 	 * session失效时跳转的地址
 	 */
-	private String sessionInvalidUrl = SecurityConstants.DEFAULT_SESSION_INVALID_URL;
+	private String sessionInvalidUrl = RainSecurityConstants.DEFAULT_SESSION_INVALID_URL;
 }
