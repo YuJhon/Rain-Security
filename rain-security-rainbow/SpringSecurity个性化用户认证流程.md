@@ -364,4 +364,339 @@
             ![FrontPage-Info](../photos/SS-UserHtml-FrontPageInfo.png)
             
             
-* 自定义登录失败处理
+* 自定义登录成功处理
+    * 编写一个自定义的成功处理器RainAuthenticationSuccessHandler
+    ![CustomerSuccessHandler](../photos/SS-AuthenticationSuccessHandler.png)
+    * 代码如下：
+    
+    ```java
+    package com.jhon.rain.security.browser.authentication;
+    
+    import com.fasterxml.jackson.databind.ObjectMapper;
+    import lombok.extern.slf4j.Slf4j;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.security.core.Authentication;
+    import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+    import org.springframework.stereotype.Component;
+    
+    import javax.servlet.ServletException;
+    import javax.servlet.http.HttpServletRequest;
+    import javax.servlet.http.HttpServletResponse;
+    import java.io.IOException;
+    
+    /**
+     * <p>功能描述</br> 登录成功的处理器 </p>
+     *
+     * @author jiangy19
+     * @version v1.0
+     * @FileName RainAuthenticationSuccessHandler
+     * @date 2017/10/19 21:35
+     */
+    @Component("rainAuthenticationSuccessHandler")
+    @Slf4j
+    public class RainAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+    
+    	@Autowired
+    	private ObjectMapper objectMapper;
+    
+    	@Override
+    	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    		log.info("登录成功");
+    
+    		/** 将信息打印到页面 **/
+    		response.setContentType("application/json;charset=UTF-8");
+    		response.getWriter().write(objectMapper.writeValueAsString(authentication));
+    	}
+    }
+
+    ```
+    * 修改配置类BrowserSecurityConfig
+    ![BrowserSuccessHandler](../photos/SS-BrowserSecurity-SuccessHandler.png)
+    * 代码如下：
+    ```java
+    package com.jhon.rain.security.browser;
+    
+    import com.jhon.rain.security.core.properties.SecurityConstants;
+    import com.jhon.rain.security.core.properties.SecurityProperties;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.Configuration;
+    import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+    import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+    import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+    import org.springframework.security.crypto.password.PasswordEncoder;
+    import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+    
+    /**
+     * <p>功能描述</br> PC端安全配置 </p>
+     *
+     * @author jiangy19
+     * @version v1.0
+     * @FileName BrowserSecurityConfig
+     * @date 2017/10/18 19:44
+     */
+    @Configuration
+    public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+    
+    	@Autowired
+    	private SecurityProperties securityProperties;
+    
+    	@Autowired
+    	private AuthenticationSuccessHandler rainAuthenticationSuccessHandler;
+    
+    	@Bean
+    	public PasswordEncoder passwordEncoder(){
+    		return new BCryptPasswordEncoder();
+    	}
+    
+    	@Override
+    	protected void configure(HttpSecurity http) throws Exception {
+    	  http.formLogin()
+                .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL) /** 自定义登录请求地址**/
+                .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM) /** 自定义登录验证的接口 **/
+                .successHandler(rainAuthenticationSuccessHandler)
+                .and()
+                .authorizeRequests()
+                    .antMatchers(
+                            SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                            securityProperties.getBrowser().getLoginPage()
+                    ).permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                    .csrf().disable(); /** CSRF 功能禁用 **/
+    	}
+    }
+
+    ```
+    
+    * 登录成功效果
+    ![LoginSuccessEffect](../photos/SuccessHandlerFrontPageInfo.png)
+
+* 自定义登录失败处理[和上面的类似]
+    * 编写一个登录失败的处理器RainAuthenticationFailerHandler
+    ![Authentication Failer](../photos/SS-AuthenticationFailHandler.png)
+    * 代码如下：
+    ```java
+    package com.jhon.rain.security.browser.authentication;
+    
+    import com.fasterxml.jackson.databind.ObjectMapper;
+    import lombok.extern.slf4j.Slf4j;
+    import org.springframework.http.HttpStatus;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.security.core.AuthenticationException;
+    import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+    import org.springframework.stereotype.Component;
+    
+    import javax.servlet.ServletException;
+    import javax.servlet.http.HttpServletRequest;
+    import javax.servlet.http.HttpServletResponse;
+    import java.io.IOException;
+    
+    /**
+     * <p>功能描述</br> 失败处理器 </p>
+     *
+     * @author jiangy19
+     * @version v1.0
+     * @FileName RainAuthenticationFailerHandler
+     * @date 2017/10/19 22:08
+     */
+    @Component("rainAuthenticationFailerHandler")
+    @Slf4j
+    public class RainAuthenticationFailerHandler implements AuthenticationFailureHandler {
+    
+    	@Autowired
+    	private ObjectMapper objectMapper;
+    
+    	@Override
+    	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+    	                                    AuthenticationException exception)
+    					throws IOException, ServletException {
+    
+    		log.info("登录失败");
+    
+  		    response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    		response.setContentType("application/json;charset=UTF-8");
+    		response.getWriter().write(objectMapper.writeValueAsString(exception.getMessage()));
+    	}
+    }
+    ```
+    
+    * 修改配置类BrowserSecurityConfig
+    ![SS-Failer-Handler](../photos/SS-BrowserSecurity-FailerHandler.png)
+    * 代码如下：
+    ```java
+    package com.jhon.rain.security.browser;
+    
+    import com.jhon.rain.security.core.properties.SecurityConstants;
+    import com.jhon.rain.security.core.properties.SecurityProperties;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.context.annotation.Bean;
+    import org.springframework.context.annotation.Configuration;
+    import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+    import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+    import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+    import org.springframework.security.crypto.password.PasswordEncoder;
+    import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+    import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+    
+    /**
+     * <p>功能描述</br> PC端安全配置 </p>
+     *
+     * @author jiangy19
+     * @version v1.0
+     * @FileName BrowserSecurityConfig
+     * @date 2017/10/18 19:44
+     */
+    @Configuration
+    public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
+    
+    	@Autowired
+    	private SecurityProperties securityProperties;
+    
+    	@Autowired
+    	private AuthenticationSuccessHandler rainAuthenticationSuccessHandler;
+    
+    	@Autowired
+    	private AuthenticationFailureHandler rainAuthenticationFailerHandler;
+    
+    	@Bean
+    	public PasswordEncoder passwordEncoder(){
+    		return new BCryptPasswordEncoder();
+    	}
+    
+    	@Override
+    	protected void configure(HttpSecurity http) throws Exception {
+    	  http.formLogin()
+                .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL) /** 自定义登录请求地址**/
+                .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM) /** 自定义登录验证的接口 **/
+                .successHandler(rainAuthenticationSuccessHandler)
+                .failureHandler(rainAuthenticationFailerHandler)
+                .and()
+                .authorizeRequests()
+                    .antMatchers(
+                            SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                            securityProperties.getBrowser().getLoginPage()
+                    ).permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                    .csrf().disable(); /** CSRF 功能禁用 **/
+    	}
+    }
+    ```
+    * 登录结果的处理
+    ![FailureHandler FrontPage](../photos/FailuerHandlerFrontPageInfo.png)
+    
+* 代码重构：成功和失败的处理不一定全部都是JSON类型，这个需要区分
+    * 登录成功处理器
+    ![CodeRefractor-SuccessHandler](../photos/CodeRefractor-Handler.png)
+    ```java
+    package com.jhon.rain.security.browser.authentication;
+    
+    import com.fasterxml.jackson.databind.ObjectMapper;
+    import com.jhon.rain.security.core.enums.LoginResponseTypeEnums;
+    import com.jhon.rain.security.core.properties.SecurityProperties;
+    import lombok.extern.slf4j.Slf4j;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.security.core.Authentication;
+    import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+    import org.springframework.stereotype.Component;
+    
+    import javax.servlet.ServletException;
+    import javax.servlet.http.HttpServletRequest;
+    import javax.servlet.http.HttpServletResponse;
+    import java.io.IOException;
+    
+    /**
+     * <p>功能描述</br> 登录成功的处理器 </p>
+     *
+     * @author jiangy19
+     * @version v1.0
+     * @FileName RainAuthenticationSuccessHandler
+     * @date 2017/10/19 21:35
+     */
+    @Component("rainAuthenticationSuccessHandler")
+    @Slf4j
+    public class RainAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+    
+    	@Autowired
+    	private ObjectMapper objectMapper;
+    
+    	@Autowired
+    	private SecurityProperties securityProperties;
+    
+    	@Override
+    	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+    	                                    Authentication authentication)
+    					throws IOException, ServletException {
+    		
+    		log.info("登录成功");
+    
+    		if (LoginResponseTypeEnums.JSON.equals(securityProperties.getBrowser().getLoginType())) {
+    			/** 将信息打印到页面 **/
+    			response.setContentType("application/json;charset=UTF-8");
+    			response.getWriter().write(objectMapper.writeValueAsString(authentication));
+    		} else {
+    			super.onAuthenticationSuccess(request, response, authentication);
+    		}
+    	}
+    }
+    ```
+    * 登录失败处理器
+    ![CodeRefractor Failure](../photos/CodeRefractor-FailureHandler.png)
+    ```java
+    package com.jhon.rain.security.browser.authentication;
+    
+    import com.fasterxml.jackson.databind.ObjectMapper;
+    import com.jhon.rain.security.browser.support.SimpleResponse;
+    import com.jhon.rain.security.core.enums.LoginResponseTypeEnums;
+    import com.jhon.rain.security.core.properties.SecurityProperties;
+    import lombok.extern.slf4j.Slf4j;
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.http.HttpStatus;
+    import org.springframework.security.core.AuthenticationException;
+    import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+    import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+    import org.springframework.stereotype.Component;
+    
+    import javax.servlet.ServletException;
+    import javax.servlet.http.HttpServletRequest;
+    import javax.servlet.http.HttpServletResponse;
+    import java.io.IOException;
+    
+    /**
+     * <p>功能描述</br> 失败处理器 </p>
+     *
+     * @author jiangy19
+     * @version v1.0
+     * @FileName RainAuthenticationFailerHandler
+     * @date 2017/10/19 22:08
+     */
+    @Component("rainAuthenticationFailerHandler")
+    @Slf4j
+    public class RainAuthenticationFailerHandler extends SimpleUrlAuthenticationFailureHandler {
+    
+    	@Autowired
+    	private ObjectMapper objectMapper;
+    
+    	@Autowired
+    	private SecurityProperties securityProperties;
+    
+    	@Override
+    	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+    	                                    AuthenticationException exception)
+    					throws IOException, ServletException {
+    
+    		log.info("登录失败");
+    
+    		if (LoginResponseTypeEnums.JSON.equals(securityProperties.getBrowser().getLoginType())) {
+    			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    			response.setContentType("application/json;charset=UTF-8");
+    			response.getWriter().write(objectMapper.writeValueAsString(exception.getMessage()));
+    		}else{
+    			super.onAuthenticationFailure(request, response, exception);
+    		}
+    	}
+    }
+    ```

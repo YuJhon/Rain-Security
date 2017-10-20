@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * <p>功能描述</br> PC端安全配置 </p>
@@ -24,6 +26,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private SecurityProperties securityProperties;
 
+	@Autowired
+	private AuthenticationSuccessHandler rainAuthenticationSuccessHandler;
+
+	@Autowired
+	private AuthenticationFailureHandler rainAuthenticationFailerHandler;
+
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
@@ -34,6 +42,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.formLogin()
 						.loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL) /** 自定义登录请求地址**/
 						.loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM) /** 自定义登录验证的接口 **/
+						.successHandler(rainAuthenticationSuccessHandler)
+						.failureHandler(rainAuthenticationFailerHandler)
 						.and()
 						.authorizeRequests()
 							.antMatchers(
