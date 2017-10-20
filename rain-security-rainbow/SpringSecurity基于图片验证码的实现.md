@@ -71,6 +71,7 @@
         * 在Filter中通过Session获取验证码的逻辑
         ![GetLogical](../photos/ValidateCodeFilterGetLogical.png)
     * 2.3 测试代码
+    
     ```java
     package com.jhon.rain.security.core.validate.code.filter;
     
