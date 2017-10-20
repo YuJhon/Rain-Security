@@ -35,4 +35,8 @@ spring:
 #         height:
 #         url:
 #      sms:
-#
+#         length:
+#         url:
+#    social:
+#      qq:
+#      weixin:

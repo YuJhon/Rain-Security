@@ -21,6 +21,8 @@
 ![Interface Level](../photos/IntefaceLevel-Result.png)
 
 1.4 Properties配置层级关系
+![Security Application YML](../photos/SecurityApplicationYML.png)
+
 ![Security Customer Properties Level Struct](../photos/SecurityCustomerPropertiesLeveStruct.png)
 
 ##### 2.验证码拦截接口可配置
