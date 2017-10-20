@@ -30,8 +30,9 @@ spring:
 # 自定义登录的验证码类型
 #    code:
 #      image:
-#         length:
-#         width:
+#         length: 6
+#         width: 200
+#         height:
 #         url:
 #      sms:
 #

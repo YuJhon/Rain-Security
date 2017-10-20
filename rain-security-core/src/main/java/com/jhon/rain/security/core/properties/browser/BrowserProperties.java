@@ -1,4 +1,4 @@
-package com.jhon.rain.security.core.properties;
+package com.jhon.rain.security.core.properties.browser;
 
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.enums.LoginResponseTypeEnum;

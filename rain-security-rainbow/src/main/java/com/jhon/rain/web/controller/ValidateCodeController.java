@@ -1,6 +1,8 @@
 package com.jhon.rain.web.controller;
 
+import com.jhon.rain.security.core.properties.SecurityProperties;
 import com.jhon.rain.security.core.validate.code.image.ImageCode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -31,6 +33,9 @@ public class ValidateCodeController {
 
 	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
+	@Autowired
+	private SecurityProperties securityProperties;
+
 	/**
 	 * <pre>获取验证码图片的接口</pre>
 	 * @param request 请求对象
@@ -54,10 +59,13 @@ public class ValidateCodeController {
 	 * @return
 	 */
 	private ImageCode createImageCode(ServletWebRequest request) {
+
 		int width = ServletRequestUtils.getIntParameter(request.getRequest(), "width",
-						67);
+						securityProperties.getCode().getImage().getWidth());
+
 		int height = ServletRequestUtils.getIntParameter(request.getRequest(), "height",
-						23);
+						securityProperties.getCode().getImage().getHeight());
+
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 		Graphics g = image.getGraphics();
@@ -86,7 +94,7 @@ public class ValidateCodeController {
 
 		g.dispose();
 
-		return new ImageCode(image, sRand, 6000);
+		return new ImageCode(image, sRand, securityProperties.getCode().getImage().getExpireIn());
 	}
 
 	/**
