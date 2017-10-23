@@ -19,7 +19,7 @@
      *
      * @author jiangy19
      * @version v1.0
-     * @FileName BrowserSecurityConfig
+     * @FileName BaseChannelSecurityConfig
      * @date 2017/10/18 19:44
      */
     @Configuration
@@ -498,7 +498,7 @@
      *
      * @author jiangy19
      * @version v1.0
-     * @FileName RainAuthenticationFailerHandler
+     * @FileName RainAuthenticationFailureHandler
      * @date 2017/10/19 22:08
      */
     @Component("rainAuthenticationFailerHandler")
@@ -670,7 +670,7 @@
      *
      * @author jiangy19
      * @version v1.0
-     * @FileName RainAuthenticationFailerHandler
+     * @FileName RainAuthenticationFailureHandler
      * @date 2017/10/19 22:08
      */
     @Component("rainAuthenticationFailerHandler")

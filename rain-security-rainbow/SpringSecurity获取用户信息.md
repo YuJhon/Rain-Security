@@ -267,7 +267,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *
  * @author jiangy19
  * @version v1.0
- * @FileName BrowserSecurityConfig
+ * @FileName BaseChannelSecurityConfig
  * @date 2017/10/18 19:44
  */
 @Configuration

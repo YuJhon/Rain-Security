@@ -20,12 +20,12 @@ import java.io.IOException;
  *
  * @author jiangy19
  * @version v1.0
- * @FileName RainAuthenticationFailerHandler
+ * @FileName RainAuthenticationFailureHandler
  * @date 2017/10/19 22:08
  */
-@Component("rainAuthenticationFailerHandler")
+@Component("rainAuthenticationFailureHandler")
 @Slf4j
-public class RainAuthenticationFailerHandler extends SimpleUrlAuthenticationFailureHandler {
+public class RainAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
 	@Autowired
 	private ObjectMapper objectMapper;

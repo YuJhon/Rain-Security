@@ -179,6 +179,7 @@
     	}
     }
     ```
+    ![Security-global-config](../photos/Security-global-config.png)
     * 2.4 测试结果
         * 异常情况
         ![Error Input](../photos/ValidateCodeErrorInput.png)
