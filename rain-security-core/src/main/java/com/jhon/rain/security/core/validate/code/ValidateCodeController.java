@@ -1,4 +1,4 @@
-package com.jhon.rain.web.controller;
+package com.jhon.rain.security.core.validate.code;
 
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.validate.code.base.ValidateCodeProcessorHolder;
@@ -39,8 +39,7 @@ public class ValidateCodeController {
 	public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type)
 					throws Exception {
 
-		validateCodeProcessorHolder
-						.findValidateCodeProcessor(type)
+		validateCodeProcessorHolder.findValidateCodeProcessor(type)
 						.create(new ServletWebRequest(request, response));
 	}
 }

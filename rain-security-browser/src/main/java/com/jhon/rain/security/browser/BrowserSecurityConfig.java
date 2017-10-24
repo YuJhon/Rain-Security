@@ -1,6 +1,7 @@
 package com.jhon.rain.security.browser;
 
 import com.jhon.rain.security.core.authentication.BaseChannelSecurityConfig;
+import com.jhon.rain.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.properties.SecurityProperties;
 import com.jhon.rain.security.core.validate.code.config.ValidateCodeSecurityConfig;
@@ -39,6 +40,9 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 	@Autowired
 	private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
+	@Autowired
+	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		/** 基础的配置
@@ -48,8 +52,11 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 		 * **/
 		applyPasswordAuthenticationConfig(http);
 		http
-				/** 添加验证码验证的过滤器 **/
-				.apply(validateCodeSecurityConfig)
+					/** 添加图片验证码验证的过滤器 **/
+					.apply(validateCodeSecurityConfig)
+				.and()
+					/** 添加短信验证码验证的过滤器 **/
+					.apply(smsCodeAuthenticationSecurityConfig)
 				.and()
 					.rememberMe()
 					.tokenRepository(persistentTokenRepository())
@@ -60,9 +67,11 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 					.antMatchers(
 							/** 默认未授权处理接口地址 **/
 							RainSecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-							/** 登录的页面 **/
+							/** 登录的页面【默认是系统默认的，可以自定义配置】 **/
 							securityProperties.getBrowser().getLoginPage(),
-							/** 生成二维码的接口地址 **/
+							/** 默认手机验证码接口处理地址 **/
+							RainSecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
+							/** 生成验证码的接口地址 **/
 							RainSecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
 					).permitAll()
 					.anyRequest()

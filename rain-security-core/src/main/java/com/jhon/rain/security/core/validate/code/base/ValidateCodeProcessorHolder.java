@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- * <p>功能描述</br> 验证码处理器辅助类 </p>
+ * <p>功能描述</br> 验证码处理器辅助类 ：根据验证的类型（imageCode/smsCode）分别来获取不同的验证码的处理器 </p>
  *
  * @author jiangy19
  * @version v1.0
