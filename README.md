@@ -1,4 +1,5 @@
 #### 一步一步实现 Spring Boot & Spring Security 保护应用
+[![Build Status](https://travis-ci.org/YuJhon/Rain-Security.svg?branch=master)](https://travis-ci.org/YuJhon/Rain-Security)
 * 项目简介：
 > 使用Spring Boot & Spring Security 打造企业级安全认证，为我们的应用保驾护航。
 * 项目结构：
