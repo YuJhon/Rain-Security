@@ -3,6 +3,7 @@ package com.jhon.rain.security.core.validate.code.filter;
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.enums.ValidateCodeTypeEnum;
 import com.jhon.rain.security.core.properties.SecurityProperties;
+import com.jhon.rain.security.core.validate.code.base.ValidateCodeProcessorHolder;
 import com.jhon.rain.security.core.validate.code.exception.ValidateCodeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -48,6 +49,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	private SecurityProperties securityProperties;
 
 	/**
+	 * 系统中校验码处理器
+	 */
+	@Autowired
+	private ValidateCodeProcessorHolder validateCodeProcessorHolder;
+
+	/**
 	 * url匹配工具
 	 */
 	private AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -63,8 +70,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 		urlMap.put(RainSecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeTypeEnum.IMAGE);
 		addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeTypeEnum.IMAGE);
 
-		/** 短信验证码 TODO **/
 		urlMap.put(RainSecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeTypeEnum.SMS);
+		addUrlToMap(securityProperties.getCode().getSms().getUrl(), ValidateCodeTypeEnum.SMS);
 	}
 
 
@@ -72,20 +79,23 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 	                                FilterChain filterChain)
 					throws ServletException, IOException {
-
+		/** 获取验证码的类型 **/
 		ValidateCodeTypeEnum type = getValidateCodeType(request);
+
 		if (type != null) {
 			log.info("校验请求({})中的验证码，验证码类型为{}",request.getRequestURI(),type);
 			try{
-			    // TODO  验证码的校验
-
+				/** 验证码的校验 **/
+				validateCodeProcessorHolder.findValidateCodeProcessor(type)
+								.validate(new ServletWebRequest(request,response));
+				log.info("验证码校验通过");
 			}catch(ValidateCodeException e){
 			    e.printStackTrace();
 					authenticationFailureHandler.onAuthenticationFailure(request, response, e);
 					return;
 			}
 		}
-
+		/** 其他的过滤器链 **/
 		filterChain.doFilter(request, response);
 	}
 
