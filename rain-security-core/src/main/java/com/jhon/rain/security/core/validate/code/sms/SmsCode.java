@@ -5,7 +5,7 @@ import com.jhon.rain.security.core.validate.code.base.BaseValidateCode;
 import java.time.LocalDateTime;
 
 /**
- * <p>功能描述</br> TODO</p>
+ * <p>功能描述</br> 短信验证码 </p>
  *
  * @author jiangy19
  * @version v1.0

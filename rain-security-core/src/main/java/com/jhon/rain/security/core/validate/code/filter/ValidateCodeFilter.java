@@ -1,16 +1,16 @@
 package com.jhon.rain.security.core.validate.code.filter;
 
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
+import com.jhon.rain.security.core.enums.ValidateCodeTypeEnum;
+import com.jhon.rain.security.core.properties.SecurityProperties;
 import com.jhon.rain.security.core.validate.code.exception.ValidateCodeException;
-import com.jhon.rain.security.core.validate.code.image.ImageCode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.ServletRequestBindingException;
-import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,6 +19,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>功能描述</br> 验证码的校验的过滤器 </p>
@@ -28,72 +31,100 @@ import java.io.IOException;
  * @FileName ValidateCodeFilter
  * @date 2017/10/20 11:24
  */
-@Component("validateCodeFilter")
 @Slf4j
-public class ValidateCodeFilter extends OncePerRequestFilter {
+@Component("validateCodeFilter")
+public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
-	private static final String SESSION_KEY = "SESSION_KEY_IMAGE_CODE";
-
+	/**
+	 * 验证码校验失败处理器
+	 */
+	@Autowired
 	private AuthenticationFailureHandler authenticationFailureHandler;
 
-	private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
+	/**
+	 * 系统属性配置类
+	 */
+	@Autowired
+	private SecurityProperties securityProperties;
+
+	/**
+	 * url匹配工具
+	 */
+	private AntPathMatcher antPathMatcher = new AntPathMatcher();
+
+	/**
+	 * 存放需要校验的url和对应的类型
+	 */
+	private Map<String, ValidateCodeTypeEnum> urlMap = new HashMap<>();
+
+	@Override
+	public void afterPropertiesSet() throws ServletException {
+		super.afterPropertiesSet();
+		urlMap.put(RainSecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, ValidateCodeTypeEnum.IMAGE);
+		addUrlToMap(securityProperties.getCode().getImage().getUrl(), ValidateCodeTypeEnum.IMAGE);
+
+		/** 短信验证码 TODO **/
+		urlMap.put(RainSecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeTypeEnum.SMS);
+	}
+
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 	                                FilterChain filterChain)
 					throws ServletException, IOException {
 
-		if (StringUtils.equals(RainSecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM, request.getRequestURI())
-						&& StringUtils.equalsIgnoreCase(request.getMethod(), "POST")) {
+		ValidateCodeTypeEnum type = getValidateCodeType(request);
+		if (type != null) {
+			log.info("校验请求({})中的验证码，验证码类型为{}",request.getRequestURI(),type);
+			try{
+			    // TODO  验证码的校验
 
-			try {
-				/** 验证码的校验 TODO **/
-				validate(new ServletWebRequest(request));
-			} catch (ValidateCodeException e) {
-				authenticationFailureHandler.onAuthenticationFailure(request, response, e);
-				return;
+			}catch(ValidateCodeException e){
+			    e.printStackTrace();
+					authenticationFailureHandler.onAuthenticationFailure(request, response, e);
+					return;
 			}
 		}
 
 		filterChain.doFilter(request, response);
 	}
 
+
 	/**
-	 * 验证码的校验
+	 * <pre>将系统中需要校验的url根据校验类型放入map中</pre>
+	 *
+	 * @param urlStr
+	 * @param type
+	 */
+	protected void addUrlToMap(String urlStr, ValidateCodeTypeEnum type) {
+		if (StringUtils.isNotBlank(urlStr)) {
+			String[] urls = StringUtils.splitByWholeSeparatorPreserveAllTokens(urlStr, ",");
+			for (String url : urls) {
+				urlMap.put(url, type);
+			}
+		}
+	}
+
+	/**
+	 * <pre>获取校验码类型，如果当前请求不需要校验，则返回null</pre>
 	 *
 	 * @param request
+	 * @return
 	 */
-	private void validate(ServletWebRequest request) {
-		/** 获取属性 **/
-		ImageCode codeInSession = (ImageCode) sessionStrategy.getAttribute(request, SESSION_KEY);
-
-		String codeInRequest;
-		try {
-			/** imageCode是Form表单中的属性名称 **/
-			codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
-		} catch (ServletRequestBindingException e) {
-			throw new ValidateCodeException("获取验证码的值失败");
+	private ValidateCodeTypeEnum getValidateCodeType(HttpServletRequest request) {
+		ValidateCodeTypeEnum result = null;
+		if (!StringUtils.equalsIgnoreCase(request.getMethod(), "get")) {
+			Set<String> urls = urlMap.keySet();
+			for (String url : urls) {
+				if (antPathMatcher.match(url, request.getRequestURI())) {
+					result = urlMap.get(url);
+					break;
+				}
+			}
 		}
-
-		if (StringUtils.isBlank(codeInRequest)) {
-			throw new ValidateCodeException("验证码的值不能为空");
-		}
-
-		if (codeInSession == null) {
-			throw new ValidateCodeException("验证码不存在");
-		}
-
-		if (codeInSession.isExpired()) {
-			sessionStrategy.removeAttribute(request, SESSION_KEY);
-			throw new ValidateCodeException("验证码已过期");
-		}
-
-		if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
-			throw new ValidateCodeException("验证码不匹配");
-		}
-
-		sessionStrategy.removeAttribute(request, SESSION_KEY);
+		return result;
 	}
+
 
 	public AuthenticationFailureHandler getAuthenticationFailureHandler() {
 		return authenticationFailureHandler;

@@ -10,7 +10,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * @FileName BaseValidateCodeGenerator
  * @date 2017/10/20 9:43
  */
-public interface BaseValidateCodeGenerator {
+public interface ValidateCodeGenerator {
 
 	/**
 	 * <pre>生成校验码</pre>

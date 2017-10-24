@@ -7,10 +7,10 @@ import org.springframework.web.context.request.ServletWebRequest;
  *
  * @author jiangy19
  * @version v1.0
- * @FileName BaseValidateCodeProcessor
+ * @FileName ValidateCodeProcessor
  * @date 2017/10/20 9:44
  */
-public interface BaseValidateCodeProcessor {
+public interface ValidateCodeProcessor {
 
 	/**
 	 * 验证码放入session时的前缀
