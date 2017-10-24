@@ -16,6 +16,7 @@ import lombok.Data;
 public class BrowserProperties {
 
 	private SessionProperties session = new SessionProperties();
+
 	/** 注册页面 **/
 	private String signUpUrl = "/rain-signUp.html";
 
@@ -24,6 +25,7 @@ public class BrowserProperties {
 
 	/** 返回值类型枚举 **/
 	private LoginResponseTypeEnum loginType = LoginResponseTypeEnum.JSON;
+
 	/** 记住我的时间:一小时 **/
 	private int rememberMeSeconds = 3600;
 }
