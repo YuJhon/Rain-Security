@@ -35,19 +35,19 @@ public abstract class AbstractValidateCodeProcessor<C extends BaseValidateCode> 
 
 	@Override
 	public void create(ServletWebRequest request) throws Exception {
-		/** 1.生成 **/
+		/** 1.生成验证码 **/
 		C validateCode = generate(request);
 		/** 2.保存到session **/
 		save(request, validateCode);
-		/** 3.发送 **/
+		/** 3.发送验证码 **/
 		send(request, validateCode);
 	}
 
 	/**
 	 * <pre>发送验证码 ：抽象类，子类自己实现 </pre>
 	 *
-	 * @param request
-	 * @param validateCode
+	 * @param request 请求对象
+	 * @param validateCode 验证码
 	 * @throws Exception
 	 */
 	protected abstract void send(ServletWebRequest request, C validateCode) throws Exception;
@@ -55,8 +55,8 @@ public abstract class AbstractValidateCodeProcessor<C extends BaseValidateCode> 
 	/**
 	 * <pre>保存验证码属性到session中 </pre>
 	 *
-	 * @param request
-	 * @param validateCode
+	 * @param request 请求对象
+	 * @param validateCode 验证码
 	 */
 	private void save(ServletWebRequest request, C validateCode) {
 		sessionStrategy.setAttribute(request, getSessionKey(request), validateCode);
@@ -96,7 +96,7 @@ public abstract class AbstractValidateCodeProcessor<C extends BaseValidateCode> 
 		if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
 			throw new ValidateCodeException(processorType + "验证码不匹配");
 		}
-
+		/** 校验完之后，清空session中的值 **/
 		sessionStrategy.removeAttribute(request, sessionKey);
 	}
 
@@ -117,6 +117,7 @@ public abstract class AbstractValidateCodeProcessor<C extends BaseValidateCode> 
 	 * @return
 	 */
 	private ValidateCodeTypeEnum getValidateCodeType(ServletWebRequest request) {
+		/** 根据调用类类名来判断是那种类型 **/
 		String type = StringUtils.substringBefore(getClass().getSimpleName(), "CodeProcessor");
 		return ValidateCodeTypeEnum.valueOf(type.toUpperCase());
 	}
