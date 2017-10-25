@@ -27,3 +27,4 @@
         * [Spring中@Autowired%20注解%20注入map](./rain-security-rainbow/Spring中@Autowired%20注解%20注入map、list与@Qualifier.md)
         * [SpringSecurity基于App获取短信验证码的实现](./rain-security-rainbow/SpringSecurity基于App获取短信验证码的实现.md)
         * [SpringSecurity中RememberMe功能的实现](./rain-security-rainbow/SpringSecurity中RememberMe功能的实现.md)
+        * [Spring Security 短信验证码登录](./rain-security-rainbow/SpringSecurity短信验证码登录.md)
