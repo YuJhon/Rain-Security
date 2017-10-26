@@ -25,16 +25,15 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/user")
 public class UserController {
 
-	/*
 	@Autowired
 	private ProviderSignInUtils providerSignInUtils;
 
 	@PostMapping("/register")
 	public void register(User user, HttpServletRequest request) {
 		String userId = user.getUsername();
+		/** 将用户信息和社交信息进行绑定的操作 **/
 		providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
 	}
-	*/
 
 	/**
 	 * 获取登录用户的认证信息
@@ -68,7 +67,6 @@ public class UserController {
 
 	@PutMapping("/{id:\\d+}")
 	public User update(@RequestBody User user, BindingResult errors) {
-
 		return user;
 	}
 

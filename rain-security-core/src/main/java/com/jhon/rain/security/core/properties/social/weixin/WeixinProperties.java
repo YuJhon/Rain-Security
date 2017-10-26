@@ -1,6 +1,7 @@
 package com.jhon.rain.security.core.properties.social.weixin;
 
 import lombok.Data;
+import org.springframework.boot.autoconfigure.social.SocialProperties;
 
 /**
  * <p>功能描述</br> 微信相关的属性配置 </p>
@@ -11,7 +12,7 @@ import lombok.Data;
  * @date 2017/10/20 18:27
  */
 @Data
-public class WeixinProperties {
+public class WeixinProperties extends SocialProperties {
 
 	/**
 	 * 第三方Id,用来决定发起第三方登录的url，默认是weixin

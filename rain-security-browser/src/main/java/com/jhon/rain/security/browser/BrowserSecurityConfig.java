@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -43,6 +44,9 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 	@Autowired
 	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
+	@Autowired
+	private SpringSocialConfigurer rainSocialSecurityConfig;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		/** 基础的配置
@@ -58,6 +62,9 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 					/** 添加短信验证码验证的过滤器 **/
 					.apply(smsCodeAuthenticationSecurityConfig)
 				.and()
+					/** 添加社交安全配置 **/
+					.apply(rainSocialSecurityConfig)
+				.and()
 					.rememberMe()
 					.tokenRepository(persistentTokenRepository())
 					.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
@@ -72,7 +79,9 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 							/** 默认手机验证码接口处理地址 **/
 							RainSecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
 							/** 生成验证码的接口地址 **/
-							RainSecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*"
+							RainSecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
+							securityProperties.getBrowser().getSignUpUrl(),
+							"/user/register"
 					).permitAll()
 					.anyRequest()
 					.authenticated()

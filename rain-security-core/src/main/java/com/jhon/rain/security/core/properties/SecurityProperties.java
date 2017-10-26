@@ -2,6 +2,7 @@ package com.jhon.rain.security.core.properties;
 
 import com.jhon.rain.security.core.properties.browser.BrowserProperties;
 import com.jhon.rain.security.core.properties.code.ValidateCodeProperties;
+import com.jhon.rain.security.core.properties.social.SocialProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -26,6 +27,8 @@ public class SecurityProperties {
 	 * 验证码配置属性
 	 */
 	private ValidateCodeProperties code = new ValidateCodeProperties();
+
+	private SocialProperties social = new SocialProperties();
 
 
 }

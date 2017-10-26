@@ -21,11 +21,12 @@ spring:
 #    enabled: false
 
 # 自定义登录的配置项
-#rainbow:
-#  security:
+rainbow:
+  security:
 #    browser:
-#      loginPage: /rain-signUp.html
+#      loginPage: /rain-signIn.html
 #      loginType: REDIRECT Or JSON
+#      signUpUrl: /rain-signUp.html
 
 # 自定义登录的验证码类型
 #    code:
@@ -37,6 +38,12 @@ spring:
 #      sms:
 #         length:
 #         url:
-#    social:
-#      qq:
-#      weixin:
+    social:
+      qq:
+        app-id: 1106499826
+        app-secret: Xdz0ovPT8JzqfyqB
+        providerId: callback.do
+      filterProcessesUrl: /auth
+      weixin:
+        app-id: wxd99431bbff8305a0
+        app-secret: 60f78681d063590a469f1b297feff3c4

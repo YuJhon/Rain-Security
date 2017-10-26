@@ -28,3 +28,6 @@
         * [SpringSecurity基于App获取短信验证码的实现](./rain-security-rainbow/SpringSecurity基于App获取短信验证码的实现.md)
         * [SpringSecurity中RememberMe功能的实现](./rain-security-rainbow/SpringSecurity中RememberMe功能的实现.md)
         * [Spring Security 短信验证码登录](./rain-security-rainbow/SpringSecurity短信验证码登录.md)
+        * [OAuth原理和相关知识总结](./rain-security-rainbow/OAuth原理和相关知识总结.md)
+        * [SpringSecuritySocialJDBCUsersConnectionRepository](./rain-security-rainbow/SpringSecuritySocialJDBCUsersConnectionRepository.md)
+        * [SpringSocial-QQ登录实现](./rain-security-rainbow/SpringSocial-QQ登录实现.md)

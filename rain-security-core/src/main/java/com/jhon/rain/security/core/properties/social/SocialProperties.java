@@ -21,5 +21,4 @@ public class SocialProperties {
 
 	private WeixinProperties weixin = new WeixinProperties();
 
-
 }
