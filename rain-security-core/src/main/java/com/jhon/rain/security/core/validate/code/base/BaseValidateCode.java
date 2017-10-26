@@ -2,6 +2,7 @@ package com.jhon.rain.security.core.validate.code.base;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -13,8 +14,9 @@ import java.time.LocalDateTime;
  * @date 2017/10/20 9:21
  */
 @Data
-public class BaseValidateCode {
+public class BaseValidateCode implements Serializable {
 
+	private static final long serialVersionUID = -822036038363272345L;
 	/**
 	 * 验证码
 	 */

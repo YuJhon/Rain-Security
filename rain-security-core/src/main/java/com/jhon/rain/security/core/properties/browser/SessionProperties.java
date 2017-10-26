@@ -20,7 +20,7 @@ public class SessionProperties {
 	private int maximumSessions = 1;
 
 	/**
-	 * 达到最大session时，是否阻止新的登录请求，默认是false,不阻止，信息的登陆会将旧的登录失效
+	 * 达到最大session时，是否阻止新的登录请求，默认是false,不阻止，新的登陆会将旧的登录失效
 	 */
 	private boolean maxSessionPreventsLogin;
 

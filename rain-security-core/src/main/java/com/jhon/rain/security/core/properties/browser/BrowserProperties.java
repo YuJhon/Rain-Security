@@ -20,6 +20,8 @@ public class BrowserProperties {
 	/** 注册页面 **/
 	private String signUpUrl = "/rain-signUp.html";
 
+	private String signOutUrl ;
+
 	/** 默认为未授权的url RainSecurityConstants.DEFAULT_UNAUTHENTICATION_URL**/
 	private String loginPage = RainSecurityConstants.DEFAULT_LOGIN_PAGE_URL;
 

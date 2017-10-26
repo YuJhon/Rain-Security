@@ -13,7 +13,7 @@ spring:
 
 # Session 禁用
   session:
-    store-type: none
+    store-type: redis
 
 # 禁用 Basic 认证
 #security:
@@ -23,10 +23,12 @@ spring:
 # 自定义登录的配置项
 rainbow:
   security:
-#    browser:
+    browser:
 #      loginPage: /rain-signIn.html
-#      loginType: REDIRECT Or JSON
+      # REDIRECT Or JSON
+      loginType: REDIRECT
 #      signUpUrl: /rain-signUp.html
+      signOutUrl: /rain-logout.html
 
 # 自定义登录的验证码类型
 #    code:

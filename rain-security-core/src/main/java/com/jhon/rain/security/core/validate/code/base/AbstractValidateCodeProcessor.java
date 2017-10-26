@@ -59,7 +59,10 @@ public abstract class AbstractValidateCodeProcessor<C extends BaseValidateCode> 
 	 * @param validateCode 验证码
 	 */
 	private void save(ServletWebRequest request, C validateCode) {
-		sessionStrategy.setAttribute(request, getSessionKey(request), validateCode);
+
+		BaseValidateCode baseValidateCode = new BaseValidateCode(validateCode.getCode(),validateCode.getExpireTime());
+
+		sessionStrategy.setAttribute(request, getSessionKey(request), baseValidateCode);
 	}
 
 	@Override

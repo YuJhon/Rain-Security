@@ -31,3 +31,4 @@
         * [OAuth原理和相关知识总结](./rain-security-rainbow/OAuth原理和相关知识总结.md)
         * [SpringSecuritySocialJDBCUsersConnectionRepository](./rain-security-rainbow/SpringSecuritySocialJDBCUsersConnectionRepository.md)
         * [SpringSocial-QQ登录实现](./rain-security-rainbow/SpringSocial-QQ登录实现.md)
+        * [SpringBoot Session管理](./rain-security-rainbow/SpringBootSession管理.md)

@@ -1,5 +1,6 @@
 package com.jhon.rain.security.browser;
 
+import com.jhon.rain.security.browser.session.RainExpiredSessionStrategy;
 import com.jhon.rain.security.core.authentication.BaseChannelSecurityConfig;
 import com.jhon.rain.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
@@ -12,8 +13,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -45,7 +49,16 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
 	@Autowired
+	private InvalidSessionStrategy invalidSessionStrategy;
+
+	@Autowired
+	private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
+
+	@Autowired
 	private SpringSocialConfigurer rainSocialSecurityConfig;
+
+	@Autowired
+	private LogoutSuccessHandler logoutSuccessHandler;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -70,6 +83,21 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 					.tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
 					.userDetailsService(userDetailsService)
 				.and()
+					.sessionManagement()
+						.invalidSessionStrategy(invalidSessionStrategy)
+						.maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+						.maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionPreventsLogin())
+						.expiredSessionStrategy(sessionInformationExpiredStrategy)
+				.and()
+				.and()
+					.logout()
+						/** 自定义logout的配置 **/
+						.logoutUrl("/signOut")
+						/** logoutSuccessUrl 和 logoutSuccessHandler 两个配置是互斥的 **/
+						//.logoutSuccessUrl("rain-logout.html")
+						.logoutSuccessHandler(logoutSuccessHandler)
+						.deleteCookies("JSESSIONID")
+				.and()
 					.authorizeRequests()
 					.antMatchers(
 							/** 默认未授权处理接口地址 **/
@@ -81,6 +109,11 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 							/** 生成验证码的接口地址 **/
 							RainSecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
 							securityProperties.getBrowser().getSignUpUrl(),
+							/** session失效跳转的链接地址 **/
+							securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".json",
+							securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".html",
+							/** 自定义退出地址 **/
+							securityProperties.getBrowser().getSignOutUrl(),
 							"/user/register"
 					).permitAll()
 					.anyRequest()
