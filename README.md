@@ -32,3 +32,7 @@
         * [SpringSecuritySocialJDBCUsersConnectionRepository](./rain-security-rainbow/SpringSecuritySocialJDBCUsersConnectionRepository.md)
         * [SpringSocial-QQ登录实现](./rain-security-rainbow/SpringSocial-QQ登录实现.md)
         * [SpringBoot Session管理](./rain-security-rainbow/SpringBootSession管理.md)
+        * [Spring Security中Auth2的实现](./rain-security-rainbow/SpringSecurity中Auth2的实现.md)
+        * [SpringSecurityOAuth重构用户名密码登陆](./rain-security-rainbow/SpringSecurityOAuth重构用户名密码登陆.md)
+        * [SpringSecurityOAuth重构短信验证码登录](./rain-security-rainbow/SpringSecurityOAuth重构短信验证码登录.md)
+        * [SpringSecurityOAuth重构社交登录](./rain-security-rainbow/SpringSecurityOAuth重构社交登录.md)

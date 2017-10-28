@@ -1,4 +1,4 @@
-#### Spring Security中Auth2的实现.md
+#### Spring Security中Auth2的实现
 
 ![](../photos/1028/CurrentSoftWareModel.png)
 
