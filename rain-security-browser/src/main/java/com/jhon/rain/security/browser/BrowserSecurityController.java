@@ -1,7 +1,7 @@
 package com.jhon.rain.security.browser;
 
-import com.jhon.rain.security.browser.support.SimpleResponse;
-import com.jhon.rain.security.browser.support.SocialUserInfo;
+import com.jhon.rain.security.core.support.SimpleResponse;
+import com.jhon.rain.security.core.support.SocialUserInfo;
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;

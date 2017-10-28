@@ -19,9 +19,15 @@
 
     <dependencies>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.jhon</groupId>
             <artifactId>rain-security-browser</artifactId>
+            <version>${jhon.rain.security}</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.jhon</groupId>
+            <artifactId>rain-security-app</artifactId>
             <version>${jhon.rain.security}</version>
         </dependency>
 

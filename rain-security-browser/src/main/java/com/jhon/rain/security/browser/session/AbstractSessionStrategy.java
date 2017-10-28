@@ -1,7 +1,7 @@
 package com.jhon.rain.security.browser.session;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jhon.rain.security.browser.support.SimpleResponse;
+import com.jhon.rain.security.core.support.SimpleResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;

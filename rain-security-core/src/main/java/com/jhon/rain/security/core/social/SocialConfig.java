@@ -54,14 +54,12 @@ public class SocialConfig extends SocialConfigurerAdapter {
 	@Autowired(required = false)
 	private ConnectionSignUp connectionSignUp;
 
+	@Autowired(required = false)
+	private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
 	@Override
 	public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
-		JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource,connectionFactoryLocator, Encryptors.noOpText());
-		repository.setTablePrefix("Rain_");
-		if (connectionSignUp != null){
-			repository.setConnectionSignUp(connectionSignUp);
-		}
-		return repository;
+		return usersConnectionRepository(connectionFactoryLocator);
 	}
 
 
@@ -70,13 +68,24 @@ public class SocialConfig extends SocialConfigurerAdapter {
 		String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
 		RainSpringSocialConfigurer configurer = new RainSpringSocialConfigurer(filterProcessesUrl);
 		configurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
+		configurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
 		return configurer;
 	}
 
 	@Bean
 	public ProviderSignInUtils providerSignInUtils(ConnectionFactoryLocator connectionFactoryLocator){
 		return new ProviderSignInUtils(connectionFactoryLocator,
-						getUsersConnectionRepository(connectionFactoryLocator));
+						usersConnectionRepository(connectionFactoryLocator));
+	}
+
+	@Bean
+	public UsersConnectionRepository usersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator){
+		JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource,connectionFactoryLocator, Encryptors.noOpText());
+		repository.setTablePrefix("rain_");
+		if (connectionSignUp != null){
+			repository.setConnectionSignUp(connectionSignUp);
+		}
+		return repository;
 	}
 
 }

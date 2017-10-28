@@ -15,7 +15,7 @@ public interface ValidateCodeProcessor {
 	/**
 	 * 验证码放入session时的前缀
 	 */
-	String SESSION_KEY_PREFIX = "";
+	String SESSION_KEY_PREFIX = "SESSION_KEY_FOR_CODE_";
 
 	/**
 	 * <pre>创建验证码</pre>

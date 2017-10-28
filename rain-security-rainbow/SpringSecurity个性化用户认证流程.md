@@ -649,7 +649,7 @@
     package com.jhon.rain.security.browser.authentication;
     
     import com.fasterxml.jackson.databind.ObjectMapper;
-    import com.jhon.rain.security.browser.support.SimpleResponse;
+    import com.jhon.rain.security.core.support.SimpleResponse;
     import com.jhon.rain.security.core.enums.LoginResponseTypeEnum;
     import com.jhon.rain.security.core.properties.SecurityProperties;
     import lombok.extern.slf4j.Slf4j;

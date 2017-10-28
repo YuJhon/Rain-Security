@@ -1,8 +1,7 @@
 package com.jhon.rain.security.browser.logout;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jhon.rain.security.browser.support.SimpleResponse;
-import com.jhon.rain.security.core.properties.SecurityProperties;
+import com.jhon.rain.security.core.support.SimpleResponse;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;

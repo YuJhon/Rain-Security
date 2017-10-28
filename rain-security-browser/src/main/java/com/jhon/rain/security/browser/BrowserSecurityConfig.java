@@ -49,13 +49,13 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 	private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
 	@Autowired
+	private SpringSocialConfigurer rainSocialSecurityConfig;
+
+	@Autowired
 	private InvalidSessionStrategy invalidSessionStrategy;
 
 	@Autowired
 	private SessionInformationExpiredStrategy sessionInformationExpiredStrategy;
-
-	@Autowired
-	private SpringSocialConfigurer rainSocialSecurityConfig;
 
 	@Autowired
 	private LogoutSuccessHandler logoutSuccessHandler;
@@ -122,10 +122,6 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 			.csrf().disable(); /** CSRF 功能禁用 **/
 	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	@Bean
 	public PersistentTokenRepository persistentTokenRepository(){

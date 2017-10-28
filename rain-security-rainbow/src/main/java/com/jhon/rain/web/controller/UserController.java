@@ -2,6 +2,7 @@ package com.jhon.rain.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhon.rain.dto.User;
+import com.jhon.rain.security.app.social.impl.AppSignUpUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,11 +29,16 @@ public class UserController {
 	@Autowired
 	private ProviderSignInUtils providerSignInUtils;
 
+	@Autowired
+	private AppSignUpUtils appSignUpUtils;
+
 	@PostMapping("/register")
 	public void register(User user, HttpServletRequest request) {
 		String userId = user.getUsername();
 		/** 将用户信息和社交信息进行绑定的操作 **/
-		providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+		//providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
+		/** app端社交注册的接口 **/
+		appSignUpUtils.doPostSignUp(new ServletWebRequest(request),userId);
 	}
 
 	/**

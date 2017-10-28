@@ -21,7 +21,7 @@ public class BaseCodeProperties {
 	 */
 	private int expireIn = 60;
 	/**
-	 * 拦截的接口地址
+	 * 拦截的接口地址[哪些地址需要验证码拦截]
 	 */
 	private String url;
 

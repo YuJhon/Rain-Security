@@ -31,6 +31,11 @@ public class RainSecurityConstants {
 	public static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/authentication/mobile";
 
 	/**
+	 * <pre>默认的openid登录处理的接口地址</pre>
+	 */
+	public static final String DEFAULT_LOGIN_PROCESS_URL_OPENID = "/authentication/openid";
+
+	/**
 	 * <pre>默认登录页面</pre>
 	 */
 	public static final String DEFAULT_LOGIN_PAGE_URL = "/rain-signIn.html";
@@ -54,4 +59,16 @@ public class RainSecurityConstants {
 	 * <pre>Session 失效默认跳转页面</pre>
 	 */
 	public static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
+
+	/**
+	 * <pre>openId参数名称</pre>
+	 */
+	public static final String DEFAULT_PARAMETER_NAME_OPENID = "openId";
+
+	/**
+	 * <pre>服务提供商的参数名称</pre>
+	 */
+	public static final String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerId";
+
+
 }

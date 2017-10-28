@@ -1,4 +1,4 @@
-package com.jhon.rain.security.browser.support;
+package com.jhon.rain.security.core.support;
 
 import lombok.Data;
 
