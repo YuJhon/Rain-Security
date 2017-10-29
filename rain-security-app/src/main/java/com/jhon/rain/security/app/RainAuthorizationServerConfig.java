@@ -12,7 +12,13 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>功能描述</br> 认证服务器配置 </p>
@@ -38,11 +44,28 @@ public class RainAuthorizationServerConfig extends AuthorizationServerConfigurer
 	@Autowired
 	private TokenStore tokenStore;
 
+	@Autowired(required = false)
+	private JwtAccessTokenConverter jwtAccessTokenConverter;
+
+	@Autowired(required = false)
+	private TokenEnhancer jwtTokenEnhancer;
+
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.authenticationManager(authenticationManager)
 						.userDetailsService(userDetailsService)
 						.tokenStore(tokenStore);
+
+		if (jwtAccessTokenConverter != null && jwtTokenEnhancer!=null){
+			TokenEnhancerChain chain = new TokenEnhancerChain();
+			List<TokenEnhancer> enhancers = new ArrayList<>();
+			enhancers.add(jwtTokenEnhancer);
+			enhancers.add(jwtAccessTokenConverter);
+			chain.setTokenEnhancers(enhancers);
+
+			endpoints.tokenEnhancer(chain)
+							.accessTokenConverter(jwtAccessTokenConverter);
+		}
 	}
 
 	@Override
@@ -53,6 +76,7 @@ public class RainAuthorizationServerConfig extends AuthorizationServerConfigurer
 				builder.withClient(config.getClientId())
 						.secret(config.getClientSecret())
 						.accessTokenValiditySeconds(config.getAccessTokenValiditySeconds())
+						.refreshTokenValiditySeconds(config.getRefreshTokenValiditySeconds())
 						.authorizedGrantTypes("password","refresh_token")
 						.scopes("all","read","write");
 			}

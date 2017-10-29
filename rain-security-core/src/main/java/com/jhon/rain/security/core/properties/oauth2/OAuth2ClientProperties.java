@@ -26,5 +26,11 @@ public class OAuth2ClientProperties {
 	/**
 	 * token过期时间
 	 */
-	private int accessTokenValiditySeconds;//如果为0则永远不会过期
+	private int accessTokenValiditySeconds = 7200;//如果为0则永远不会过期
+
+	/**
+	 * refresh token的过期时间设置
+	 */
+	private int refreshTokenValiditySeconds = 30 * 24 * 3600;
+
 }

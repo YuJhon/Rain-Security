@@ -3,8 +3,14 @@ package com.jhon.rain.web.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jhon.rain.dto.User;
 import com.jhon.rain.security.app.social.impl.AppSignUpUtils;
+import com.jhon.rain.security.core.properties.SecurityProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 
 /**
  * <p>功能描述</br> 用户类型的控制器 </p>
@@ -24,6 +31,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
 	@Autowired
@@ -32,28 +40,40 @@ public class UserController {
 	@Autowired
 	private AppSignUpUtils appSignUpUtils;
 
+	@Autowired
+	private SecurityProperties securityProperties;
+
+
 	@PostMapping("/register")
 	public void register(User user, HttpServletRequest request) {
 		String userId = user.getUsername();
 		/** 将用户信息和社交信息进行绑定的操作 **/
 		//providerSignInUtils.doPostSignUp(userId, new ServletWebRequest(request));
 		/** app端社交注册的接口 **/
-		appSignUpUtils.doPostSignUp(new ServletWebRequest(request),userId);
+		appSignUpUtils.doPostSignUp(new ServletWebRequest(request), userId);
 	}
 
 	/**
 	 * 获取登录用户的认证信息
 	 *
-	 * @param authentication
+	 * @param user
 	 * @return
 	 */
 	@GetMapping("/me")
-	public Object getCurrentUserAuthentication(Authentication authentication) {
-		return authentication;
+	public Object getCurrentUserAuthentication(Authentication user, HttpServletRequest request)
+					throws UnsupportedEncodingException {
+		String header = request.getHeader("Authorization");
+		String token = StringUtils.substringAfter(header, "bearer");
+		Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth().getJwtSignInKey().getBytes("UTF-8"))
+						.parseClaimsJws(token).getBody();
+		String company = (String) claims.get("company");
+		log.info("compay:{}", company);
+		return claims;
 	}
 
 	@GetMapping("/meDetail")
-	public Object getCurrentUserDetails(@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetails) {
+	public Object getCurrentUserDetails(@AuthenticationPrincipal
+					                                    org.springframework.security.core.userdetails.User userDetails) {
 		return userDetails;
 	}
 

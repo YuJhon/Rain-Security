@@ -17,4 +17,9 @@ public class OAuth2Properties {
 	 * OAuth2认证的客户端配置属性[支持多个应用的配置]
 	 */
 	private OAuth2ClientProperties[] clients = {};
+
+	/**
+	 * JWT的秘钥
+	 */
+	private String jwtSignInKey = "jhonrain";
 }

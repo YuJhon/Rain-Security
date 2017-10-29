@@ -54,6 +54,8 @@ rainbow:
 
 # OAuth2的令牌自定义配置
     oauth:
+      jwtSignInKey: jhonrain
+      storeType: jwt # jwt or redis
       clients[0]:
         clientId: rainbow
         clientSecret: rainbow-secret
