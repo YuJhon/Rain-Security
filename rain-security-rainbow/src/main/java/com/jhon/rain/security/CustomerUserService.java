@@ -52,6 +52,6 @@ public class CustomerUserService implements UserDetailsService,SocialUserDetails
 		log.info("登陆的用户密码是：{}",enPassword);
 		return new SocialUser(userId,enPassword,
 						true,true,true,true,
-						AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
+						AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN,ROLE_USER"));
 	}
 }

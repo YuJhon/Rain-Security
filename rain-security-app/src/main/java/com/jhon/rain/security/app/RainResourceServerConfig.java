@@ -2,10 +2,12 @@ package com.jhon.rain.security.app;
 
 import com.jhon.rain.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.jhon.rain.security.core.authentication.open.OpenIdAuthenticationSecurityConfig;
+import com.jhon.rain.security.core.authorize.AuthorizeConfigManager;
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.properties.SecurityProperties;
 import com.jhon.rain.security.core.validate.code.config.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -52,6 +54,9 @@ public class RainResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Autowired
 	private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
+	@Autowired
+	private AuthorizeConfigManager authorizeConfigManager;
+
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		/** 基础的配置
@@ -81,29 +86,31 @@ public class RainResourceServerConfig extends ResourceServerConfigurerAdapter {
 				.and()
 				/**openid登录方式配置 **/
 				.apply(openIdAuthenticationSecurityConfig)
-				.and()
+				/*.and()
 				.authorizeRequests()
 				.antMatchers(
-								/** 默认未授权处理接口地址 **/
+								*//** 默认未授权处理接口地址 **//*
 								RainSecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-								/** 登录的页面【默认是系统默认的，可以自定义配置】 **/
+								*//** 登录的页面【默认是系统默认的，可以自定义配置】 **//*
 								securityProperties.getBrowser().getLoginPage(),
-								/** 默认手机验证码接口处理地址 **/
+								*//** 默认手机验证码接口处理地址 **//*
 								RainSecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-								/** 生成验证码的接口地址 **/
-								RainSecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
+								*//** 生成验证码的接口地址 **//*
+								RainSecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "*//*",
 								securityProperties.getBrowser().getSignUpUrl(),
-								/** session失效跳转的链接地址 **/
+								*//** session失效跳转的链接地址 **//*
 								securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".json",
 								securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".html",
-								/** 自定义退出地址 **/
+								*//** 自定义退出地址 **//*
 								securityProperties.getBrowser().getSignOutUrl(),
 								"/user/register","/social/signUp"
 				).permitAll()
 				.anyRequest()
-				.authenticated()
+				.authenticated()*/
 				.and()
 				.csrf().disable(); /** CSRF 功能禁用 **/
+
+		authorizeConfigManager.configure(http.authorizeRequests());
 	}
 
 }
