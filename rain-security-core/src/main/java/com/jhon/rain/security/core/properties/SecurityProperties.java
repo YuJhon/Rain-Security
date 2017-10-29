@@ -2,6 +2,7 @@ package com.jhon.rain.security.core.properties;
 
 import com.jhon.rain.security.core.properties.browser.BrowserProperties;
 import com.jhon.rain.security.core.properties.code.ValidateCodeProperties;
+import com.jhon.rain.security.core.properties.oauth2.OAuth2Properties;
 import com.jhon.rain.security.core.properties.social.SocialProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -28,7 +29,14 @@ public class SecurityProperties {
 	 */
 	private ValidateCodeProperties code = new ValidateCodeProperties();
 
+	/**
+	 * 社交配置属性
+	 */
 	private SocialProperties social = new SocialProperties();
 
+	/**
+	 * OAuth2配置属性
+	 */
+	private OAuth2Properties oauth = new OAuth2Properties();
 
 }

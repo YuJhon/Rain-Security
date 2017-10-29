@@ -70,5 +70,13 @@ public class RainSecurityConstants {
 	 */
 	public static final String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerId";
 
+	/**
+	 * <pre>默认的OAuth2的应用Id</pre>
+	 */
+	public static final String DEFAULT_OAUTH_CLIENT_CLIENTID = "rainbow";
 
+	/**
+	 * <pre>默认的OAuth2的应用Secret</pre>
+	 */
+	public static final String DEFAULT_OAUTH_CLIENT_CLIENTSECRET = "rainbow-secret";
 }
