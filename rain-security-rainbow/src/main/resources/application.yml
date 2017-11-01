@@ -2,7 +2,7 @@
 server:
   port: 8080
   session:
-    timeout: 600
+    timeout: 6000
 # Spring DB配置
 spring:
   datasource:

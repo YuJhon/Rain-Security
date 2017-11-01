@@ -3,6 +3,7 @@ package com.jhon.rain.security.core.authorize;
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
  * @date 2017/10/29 16:13
  */
 @Component
+@Order(Integer.MIN_VALUE)
 public class RainAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
 	@Autowired
@@ -39,5 +41,6 @@ public class RainAuthorizeConfigProvider implements AuthorizeConfigProvider {
 						/** 自定义退出地址 **/
 						securityProperties.getBrowser().getSignOutUrl())
 						.permitAll();
+
 	}
 }

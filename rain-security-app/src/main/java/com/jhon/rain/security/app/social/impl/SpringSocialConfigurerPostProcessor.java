@@ -1,4 +1,4 @@
-package com.jhon.rain.security.app;
+package com.jhon.rain.security.app.social.impl;
 
 import com.jhon.rain.security.core.social.RainSpringSocialConfigurer;
 import org.apache.commons.lang.StringUtils;

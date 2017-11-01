@@ -10,6 +10,7 @@
         <module>rain-security-browser</module>
         <module>rain-security-app</module>
         <module>rain-security-rainbow</module>
+        <module>rain-security-authorized</module>
     </modules>
     <packaging>pom</packaging>
 

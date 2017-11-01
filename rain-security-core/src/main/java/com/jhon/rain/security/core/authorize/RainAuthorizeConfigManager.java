@@ -5,7 +5,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * <p>功能描述</br> TODO</p>
@@ -19,13 +19,14 @@ import java.util.Set;
 public class RainAuthorizeConfigManager implements AuthorizeConfigManager{
 
 	@Autowired
-	private Set<AuthorizeConfigProvider> authorizeConfigProviders;
+	private List<AuthorizeConfigProvider> authorizeConfigProviders;
 
 	@Override
 	public void configure(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry configure) {
 		for (AuthorizeConfigProvider authorizeConfigProvider : authorizeConfigProviders) {
 			authorizeConfigProvider.configure(configure);
 		}
+		//
 		configure.anyRequest().authenticated();
 	}
 }
