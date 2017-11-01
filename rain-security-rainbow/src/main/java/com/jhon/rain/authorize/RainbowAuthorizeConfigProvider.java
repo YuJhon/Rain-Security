@@ -1,6 +1,7 @@
 package com.jhon.rain.authorize;
 
 import com.jhon.rain.security.core.authorize.AuthorizeConfigProvider;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
@@ -15,12 +16,15 @@ import org.springframework.stereotype.Component;
  * @date 2017/10/29 16:24
  */
 @Component
+@Order(Integer.MAX_VALUE)
 public class RainbowAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
 	@Override
 	public void configure(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry configure) {
-		configure.antMatchers(HttpMethod.GET,"/user*//*").hasRole("ADMIN")
-						.antMatchers("/resources/rainbow.html").hasRole("SUPER_ADMIN")
-						.antMatchers("/user/register","/social/signUp");
+		configure
+						//.anyRequest().access("@rbacService.hasPermission(request,authentication") //必须要在最后配置
+						//.antMatchers(HttpMethod.GET,"/user*//*").hasRole("ADMIN")
+						//.antMatchers("/resources/rainbow.html").hasRole("SUPER_ADMIN")
+						.antMatchers("/user/register","/social/signUp").permitAll();
 	}
 }

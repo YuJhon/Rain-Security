@@ -19,17 +19,17 @@
 
     <dependencies>
 
-        <!--<dependency>
+        <dependency>
             <groupId>com.jhon</groupId>
             <artifactId>rain-security-browser</artifactId>
             <version>${jhon.rain.security}</version>
-        </dependency>-->
+        </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.jhon</groupId>
             <artifactId>rain-security-app</artifactId>
             <version>${jhon.rain.security}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,6 +74,12 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
         </dependency>
     </dependencies>
 
