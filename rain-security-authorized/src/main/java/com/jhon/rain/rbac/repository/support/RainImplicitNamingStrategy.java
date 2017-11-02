@@ -1,4 +1,4 @@
-package com.jhon.rain.rbac.repository;
+package com.jhon.rain.rbac.repository.support;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;

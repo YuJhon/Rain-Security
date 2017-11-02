@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>功能描述</br> Security认证的公共配置 </p>
@@ -15,7 +16,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
  * @FileName BaseChannelSecurityConfig
  * @date 2017/10/23 16:00
  */
-public class BaseChannelSecurityConfig extends WebSecurityConfigurerAdapter {
+@Component
+public class FormAuthenticationConfig {
 
 	@Autowired
 	private AuthenticationSuccessHandler rainAuthenticationSuccessHandler;
@@ -28,7 +30,7 @@ public class BaseChannelSecurityConfig extends WebSecurityConfigurerAdapter {
 	 * @param http
 	 * @throws Exception
 	 */
-	protected void applyPasswordAuthenticationConfig(HttpSecurity http) throws Exception {
+	public void configure(HttpSecurity http) throws Exception {
 		http.formLogin()
 				/** 自定义登录请求地址**/
 				.loginPage(RainSecurityConstants.DEFAULT_UNAUTHENTICATION_URL)

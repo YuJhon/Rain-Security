@@ -1,4 +1,4 @@
-package com.jhon.rain.security.core.authentication.open;
+package com.jhon.rain.security.app.authentication.openid;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

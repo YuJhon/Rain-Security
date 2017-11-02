@@ -1,0 +1,80 @@
+# 服务器的配置
+server:
+  port: 8090
+  session:
+    timeout: 6000
+# Spring DB配置
+spring:
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost/rain-security?characterEncoding=utf-8&useSSL=false
+
+# Session 存储在Redis中【redis使用了默认的配置】
+  session:
+    store-type: redis
+
+# 禁用 Basic 认证
+#security:
+#  basic:
+#    enabled: false
+
+# 自定义登录的配置项
+rainbow:
+  security:
+    browser:
+#      loginPage: /rain-signIn.html
+      # REDIRECT Or JSON
+      loginType: REDIRECT
+#      signUpUrl: /rain-signUp.html
+      signOutUrl: /rain-logout.html
+
+# 自定义登录的验证码类型
+#    code:
+#      image:
+#         length: 6
+#         width: 200
+#         height:
+#         url:
+#      sms:
+#         length:
+#         url:
+
+# 社交登录的配置
+    social:
+      qq:
+        app-id: 1106499826
+        app-secret: Xdz0ovPT8JzqfyqB
+        providerId: callback.do
+      filterProcessesUrl: /auth
+      weixin:
+        app-id: wxd99431bbff8305a0
+        app-secret: 60f78681d063590a469f1b297feff3c4
+
+# OAuth2的令牌自定义配置
+    oauth:
+      jwtSignInKey: jhonrain
+      storeType: jwt # jwt or redis
+      clients[0]:
+        clientId: rainbow
+        clientSecret: rainbow-secret
+        accessTokenValiditySeconds: 7200
+      clients[1]:
+        clientId: jhon
+        clientSecret: rain
+        #accessTokenValiditySeconds: 3600
+
+# 配置应用的Id和Secret[上面配置了的话，这里的默认配置就失效了]
+#security:
+#  oauth2:
+#    client:
+#      client-id: rainbow
+#      client-secret: rainbow-secret
+

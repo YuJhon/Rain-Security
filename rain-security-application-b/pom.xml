@@ -7,10 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>rain-security-authorized</artifactId>
+    <artifactId>rain-security-application-b</artifactId>
     <packaging>jar</packaging>
 
-    <name>authorize</name>
+    <name>rain-security-application-b</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -19,17 +19,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.jhon</groupId>
-            <artifactId>rain-security-core</artifactId>
-            <version>${jhon.rain.security}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

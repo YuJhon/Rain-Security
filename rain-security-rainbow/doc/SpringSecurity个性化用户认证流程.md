@@ -118,7 +118,7 @@
          *
          * @author jiangy19
          * @version v1.0
-         * @FileName BrowserSecurityConfig
+         * @FileName FormAuthenticationConfig
          * @date 2017/10/18 19:44
          */
         @Configuration

@@ -1,24 +1,18 @@
 package com.jhon.rain.security.app;
 
 import com.jhon.rain.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
-import com.jhon.rain.security.core.authentication.open.OpenIdAuthenticationSecurityConfig;
+import com.jhon.rain.security.app.authentication.openid.OpenIdAuthenticationSecurityConfig;
 import com.jhon.rain.security.core.authorize.AuthorizeConfigManager;
 import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.properties.SecurityProperties;
 import com.jhon.rain.security.core.validate.code.config.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
-import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 /**

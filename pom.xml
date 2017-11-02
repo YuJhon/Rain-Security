@@ -11,6 +11,8 @@
         <module>rain-security-app</module>
         <module>rain-security-rainbow</module>
         <module>rain-security-authorized</module>
+        <module>rain-security-application-a</module>
+        <module>rain-security-application-b</module>
     </modules>
     <packaging>pom</packaging>
 

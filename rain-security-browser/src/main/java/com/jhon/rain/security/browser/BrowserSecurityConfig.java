@@ -1,21 +1,16 @@
 package com.jhon.rain.security.browser;
 
-import com.jhon.rain.security.browser.session.RainExpiredSessionStrategy;
-import com.jhon.rain.security.core.authentication.BaseChannelSecurityConfig;
+import com.jhon.rain.security.core.authentication.FormAuthenticationConfig;
 import com.jhon.rain.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.jhon.rain.security.core.authorize.AuthorizeConfigManager;
-import com.jhon.rain.security.core.constants.RainSecurityConstants;
 import com.jhon.rain.security.core.properties.SecurityProperties;
 import com.jhon.rain.security.core.validate.code.config.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -30,11 +25,11 @@ import javax.sql.DataSource;
  *
  * @author jiangy19
  * @version v1.0
- * @FileName BrowserSecurityConfig
+ * @FileName FormAuthenticationConfig
  * @date 2017/10/18 19:44
  */
 @Configuration
-public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
+public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private SecurityProperties securityProperties;
@@ -66,6 +61,9 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 	@Autowired
 	private AuthorizeConfigManager authorizeConfigManager;
 
+	@Autowired
+	private FormAuthenticationConfig formAuthenticationConfig;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		/** 基础的配置
@@ -73,7 +71,7 @@ public class BrowserSecurityConfig extends BaseChannelSecurityConfig {
 		 * 2.自定义登录验证的接口
 		 * 3.登录成功和失败的处理
 		 * **/
-		applyPasswordAuthenticationConfig(http);
+		formAuthenticationConfig.configure(http);
 		http
 					/** 添加图片验证码验证的过滤器 **/
 					.apply(validateCodeSecurityConfig)
