@@ -1,7 +1,7 @@
 #### SeCu
 
 ##### Restful API Knowledge
-[Restful API Example](./RestfulAPI%20Example.md)
+[Restful API Example](./doc/RestfulAPI%20Example.md)
 
 ##### @PathVariable
 * name
