@@ -58,7 +58,7 @@ public interface RainRoleService {
 	 * @param id
 	 * @return
 	 */
-	String[] getRoleResoures(Long id);
+	String[] getRoleResources(Long id);
 
 	/**
 	 * <pre>角色和资源的关联 </pre>

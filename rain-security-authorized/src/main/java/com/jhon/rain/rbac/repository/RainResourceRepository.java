@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface RainResourceRepository extends RainRepository<RainResourceDO> {
+
+	RainResourceDO findByName(String name);
 }
